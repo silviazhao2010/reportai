@@ -1,6 +1,8 @@
 import React from 'react';
-import { Table, Alert, Empty } from 'antd';
-import { BarChartOutlined } from '@ant-design/icons';
+import { Table, Alert, Empty, Card, Typography } from 'antd';
+import { BarChartOutlined, BulbOutlined } from '@ant-design/icons';
+
+const { Paragraph } = Typography;
 
 function ReportDisplay({ result, compact = false }) {
   if (!result) {
@@ -45,6 +47,54 @@ function ReportDisplay({ result, compact = false }) {
 
   return (
     <div style={{ marginTop: '8px' }}>
+      {/* 结果解读 */}
+      {result.interpretation && (
+        <Card
+          size="small"
+          style={{
+            marginBottom: '12px',
+            background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+            border: 'none',
+          }}
+          bodyStyle={{ padding: '12px 16px' }}
+        >
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '8px',
+          }}>
+            <BulbOutlined style={{
+              color: '#1890ff',
+              fontSize: '16px',
+              marginTop: '2px',
+              flexShrink: 0,
+            }} />
+            <div style={{ flex: 1 }}>
+              <div style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                color: '#1890ff',
+                marginBottom: '6px',
+              }}>
+                数据解读
+              </div>
+              <Paragraph
+                style={{
+                  margin: 0,
+                  fontSize: '13px',
+                  color: '#333',
+                  lineHeight: '1.6',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {result.interpretation}
+              </Paragraph>
+            </div>
+          </div>
+        </Card>
+      )}
+      
+      {/* 查询结果表格 */}
       <div style={{ 
         marginBottom: '8px',
         color: '#666',

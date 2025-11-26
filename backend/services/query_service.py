@@ -1,6 +1,7 @@
 from typing import Dict, Any, List
 from services.database_service import DatabaseService
 from services.nl2sql_service import NL2SQLService
+from services.result_interpretation_service import ResultInterpretationService
 from config import Config
 
 class QueryService:
@@ -9,8 +10,9 @@ class QueryService:
   def __init__(self, db_service: DatabaseService, nl2sql_service: NL2SQLService):
     self.db_service = db_service
     self.nl2sql_service = nl2sql_service
+    self.interpretation_service = ResultInterpretationService()
 
-  def execute_query(self, natural_language: str, show_sql: bool = True) -> Dict[str, Any]:
+  def execute_query(self, natural_language: str, show_sql: bool = True, enable_interpretation: bool = True) -> Dict[str, Any]:
     """执行自然语言查询"""
     try:
       # 转换为SQL
@@ -38,6 +40,20 @@ class QueryService:
       
       if show_sql:
         result['sql'] = sql
+      
+      # 生成结果解读
+      if enable_interpretation and results:
+        try:
+          interpretation = self.interpretation_service.interpret_result(
+            natural_language,
+            results,
+            columns,
+          )
+          if interpretation:
+            result['interpretation'] = interpretation
+        except Exception as e:
+          # 解读失败不影响主流程
+          print(f'生成结果解读失败: {str(e)}')
       
       return result
       
