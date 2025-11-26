@@ -35,7 +35,7 @@ function QueryInput({ onQuery, loading }) {
   return (
     <Card
       title="自然语言查询"
-      style={{ marginBottom: '24px' }}
+      style={{ marginBottom: 0 }}
       extra={
         <Button
           type="link"

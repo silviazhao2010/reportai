@@ -1,30 +1,30 @@
 import React from 'react';
-import { Card, Table, Alert, Empty } from 'antd';
+import { Table, Alert, Empty } from 'antd';
 import { BarChartOutlined } from '@ant-design/icons';
 
-function ReportDisplay({ result }) {
+function ReportDisplay({ result, compact = false }) {
   if (!result) {
     return null;
   }
 
   if (!result.success) {
     return (
-      <Card>
+      <div style={{ marginTop: '8px' }}>
         <Alert
           message="查询失败"
           description={result.message || '未知错误'}
           type="error"
           showIcon
         />
-      </Card>
+      </div>
     );
   }
 
   if (!result.data || result.data.length === 0) {
     return (
-      <Card>
+      <div style={{ marginTop: '8px' }}>
         <Empty description="查询结果为空" />
-      </Card>
+      </div>
     );
   }
 
@@ -41,35 +41,42 @@ function ReportDisplay({ result }) {
       }
       return String(aVal).localeCompare(String(bVal));
     },
-  },));
+  }));
 
   return (
-    <Card
-      title={
+    <div style={{ marginTop: '8px' }}>
+      <div style={{ 
+        marginBottom: '8px',
+        color: '#666',
+        fontSize: '12px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '4px',
+      }}>
         <span>
-          <BarChartOutlined /> 报表展示
+          <BarChartOutlined /> 查询结果
         </span>
-      }
-      extra={
-        <span style={{ color: '#666', fontSize: '14px' }}>
+        <span style={{ fontSize: '12px' }}>
           共 {result.data.length} 条记录
         </span>
-      }
-    >
+      </div>
       <Table
         dataSource={result.data.map((row, index) => ({
           ...row,
           key: index,
-        },))}
+        }))}
         columns={columns}
         pagination={{
-          pageSize: 10,
+          pageSize: compact ? 5 : 10,
           showSizeChanger: true,
           showTotal: (total) => `共 ${total} 条`,
-        },}
+          size: compact ? 'small' : 'default',
+        }}
         scroll={{ x: 'max-content' }}
+        size={compact ? 'small' : 'default'}
       />
-    </Card>
+    </div>
   );
 }
 

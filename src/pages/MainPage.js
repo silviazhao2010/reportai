@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
 import { Layout, Typography } from 'antd';
 import QueryInput from '../components/QueryInput';
-import SQLPreview from '../components/SQLPreview';
-import ReportDisplay from '../components/ReportDisplay';
+import ChatList from '../components/ChatList';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 function MainPage() {
-  const [queryResult, setQueryResult] = useState(null);
-  const [sql, setSql] = useState('');
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleQuery = async (queryText) => {
+    // 添加用户消息和AI回复占位符
+    const userMessage = {
+      isUser: true,
+      content: queryText,
+    };
+    
+    const loadingMessage = {
+      isUser: false,
+      content: '正在处理您的查询...',
+      sql: '',
+      result: null,
+    };
+
+    setMessages((prev) => [...prev, userMessage, loadingMessage]);
     setLoading(true);
-    setQueryResult(null);
-    setSql('');
 
     try {
       const response = await fetch('http://localhost:5000/api/query', {
@@ -31,40 +41,82 @@ function MainPage() {
 
       const result = await response.json();
 
-      if (result.success) {
-        setQueryResult(result);
-        setSql(result.sql || '');
-      } else {
-        setQueryResult({
-          success: false,
-          message: result.message,
-          data: [],
-          columns: [],
-        },);
-      }
+      // 更新AI消息（替换loading消息）
+      setMessages((prev) => {
+        const newMessages = [...prev];
+        const lastIndex = newMessages.length - 1;
+        if (lastIndex >= 0 && !newMessages[lastIndex].isUser) {
+          newMessages[lastIndex] = {
+            isUser: false,
+            content: result.success ? '' : '查询失败',
+            sql: result.sql || '',
+            result: result.success
+              ? result
+              : {
+                  success: false,
+                  message: result.message,
+                  data: [],
+                  columns: [],
+                },
+          };
+        }
+        return newMessages;
+      });
     } catch (error) {
-      setQueryResult({
-        success: false,
-        message: `请求失败: ${error.message}`,
-        data: [],
-        columns: [],
-      },);
+      // 更新AI消息为错误状态
+      setMessages((prev) => {
+        const newMessages = [...prev];
+        const lastIndex = newMessages.length - 1;
+        if (lastIndex >= 0 && !newMessages[lastIndex].isUser) {
+          newMessages[lastIndex] = {
+            isUser: false,
+            content: '请求失败',
+            sql: '',
+            result: {
+              success: false,
+              message: `请求失败: ${error.message}`,
+              data: [],
+              columns: [],
+            },
+          };
+        }
+        return newMessages;
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Header style={{ background: '#001529', padding: '0 24px' }}>
+    <Layout style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Header style={{ background: '#001529', padding: '0 24px', flexShrink: 0 }}>
         <Title level={3} style={{ color: '#fff', margin: '16px 0' }}>
           AI报表生成系统
         </Title>
       </Header>
-      <Content style={{ padding: '24px', background: '#f0f2f5' }}>
-        <QueryInput onQuery={handleQuery} loading={loading} />
-        {sql && <SQLPreview sql={sql} />}
-        {queryResult && <ReportDisplay result={queryResult} />}
+      <Content style={{ 
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        background: '#f0f2f5',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          flex: 1,
+          overflow: 'hidden',
+          background: '#fff',
+          margin: '24px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        }}>
+          <ChatList messages={messages} />
+        </div>
+        <div style={{ 
+          flexShrink: 0,
+          padding: '0 24px 24px',
+        }}>
+          <QueryInput onQuery={handleQuery} loading={loading} />
+        </div>
       </Content>
     </Layout>
   );
