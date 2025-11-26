@@ -26,15 +26,15 @@ class Config:
   LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'openai')
   
   # OpenAI配置
-  OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
-  OPENAI_BASE_URL = os.getenv('OPENAI_BASE_URL', 'https://api.openai.com/v1')
-  OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-3.5-turbo')
+  OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'sk-1234')
+  OPENAI_BASE_URL = os.getenv('OPENAI_BASE_URL', 'https://api.openai.rnd.huawei.com/v1')
+  OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'qwen3-32b')
   OPENAI_TEMPERATURE = float(os.getenv('OPENAI_TEMPERATURE', '0.1'))
   OPENAI_MAX_TOKENS = int(os.getenv('OPENAI_MAX_TOKENS', '1000'))
   
   # 通义千问配置
   DASHSCOPE_API_KEY = os.getenv('DASHSCOPE_API_KEY', '')
-  QWEN_MODEL = os.getenv('QWEN_MODEL', 'qwen-turbo')
+  QWEN_MODEL = os.getenv('QWEN_MODEL', 'qwen3-32b')
   
   # 文心一言配置
   WENXIN_API_KEY = os.getenv('WENXIN_API_KEY', '')
