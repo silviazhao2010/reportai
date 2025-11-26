@@ -27,9 +27,9 @@ class Config:
   
   # OpenAI配置
   OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'sk-1234')
-  OPENAI_BASE_URL = os.getenv('OPENAI_BASE_URL', 'https://api.openai.rnd.huawei.com/v1')
+  OPENAI_BASE_URL = os.getenv('OPENAI_BASE_URL', 'http://api.openai.rnd.huawei.com/v1')
   OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'qwen3-32b')
-  OPENAI_TEMPERATURE = float(os.getenv('OPENAI_TEMPERATURE', '0.1'))
+  OPENAI_TEMPERATURE = float(os.getenv('OPENAI_TEMPERATURE', '0.2'))
   OPENAI_MAX_TOKENS = int(os.getenv('OPENAI_MAX_TOKENS', '1000'))
   
   # 通义千问配置
