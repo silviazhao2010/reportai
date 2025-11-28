@@ -154,6 +154,22 @@ CROSS JOIN (
 ) cm
 WHERE tm.db_table_name = 'products';
 
+-- 报表配置表
+CREATE TABLE IF NOT EXISTS report_configs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    data_source TEXT NOT NULL,  -- SQLite数据库路径或标识
+    layout_config TEXT NOT NULL,  -- JSON格式的布局配置
+    query_config TEXT,  -- JSON格式的查询配置（表、字段、筛选条件等）
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 创建报表配置表索引
+CREATE INDEX IF NOT EXISTS idx_report_configs_name ON report_configs(name);
+CREATE INDEX IF NOT EXISTS idx_report_configs_created_at ON report_configs(created_at);
+
 -- 插入示例数据
 -- 用户数据
 INSERT OR REPLACE INTO users (id, name, age, city) VALUES

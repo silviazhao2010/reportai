@@ -36,5 +36,26 @@ api.interceptors.response.use(
   },
 );
 
+// 报表相关API
+export const reportApi = {
+  // 获取报表列表
+  listReports: () => api.get('/api/reports'),
+  
+  // 获取报表详情
+  getReport: (reportId) => api.get(`/api/reports/${reportId}`),
+  
+  // 创建报表
+  createReport: (data) => api.post('/api/reports', data),
+  
+  // 更新报表
+  updateReport: (reportId, data) => api.put(`/api/reports/${reportId}`, data),
+  
+  // 删除报表
+  deleteReport: (reportId) => api.delete(`/api/reports/${reportId}`),
+  
+  // 执行报表查询
+  executeReport: (queryConfig) => api.post('/api/reports/execute', { query_config: queryConfig }),
+};
+
 export default api;
 

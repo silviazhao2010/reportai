@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Layout, Typography } from 'antd';
+import { Layout, Typography, Button } from 'antd';
+import { FileTextOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 import QueryInput from '../components/QueryInput';
 import ChatList from '../components/ChatList';
 
@@ -7,6 +9,7 @@ const { Header, Content } = Layout;
 const { Title } = Typography;
 
 function MainPage() {
+  const history = useHistory();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -89,10 +92,17 @@ function MainPage() {
 
   return (
     <Layout style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header style={{ background: '#001529', padding: '0 24px', flexShrink: 0 }}>
+      <Header style={{ background: '#001529', padding: '0 24px', flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Title level={3} style={{ color: '#fff', margin: '16px 0' }}>
           AI报表生成系统
         </Title>
+        <Button
+          type="primary"
+          icon={<FileTextOutlined />}
+          onClick={() => history.push('/reports')}
+        >
+          报表设计器
+        </Button>
       </Header>
       <Content style={{ 
         flex: 1,
