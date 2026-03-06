@@ -1,0 +1,27 @@
+{
+  "table_naming": [
+    {
+      "pattern": "以 _1h 结尾",
+      "meaning": "小时表，存储按小时聚合的数据",
+      "usage": "当需要查询小时级别的时间范围数据时，应该查询以 _1h 结尾的表",
+      "examples": ["user_stats_1h", "order_stats_1h"]
+    },
+    {
+      "pattern": "以 _1d 结尾",
+      "meaning": "天表，存储按天聚合的数据",
+      "usage": "当需要查询天级别的时间范围数据时，应该查询以 _1d 结尾的表",
+      "examples": ["user_stats_1d", "order_stats_1d"]
+    }
+  ],
+  "field_values": [
+    {
+      "table_name": "",
+      "field_name": "info_ind",
+      "value": 2,
+      "meaning": "保障用户",
+      "usage": "当需要查询保障用户时，使用 WHERE info_ind = 2"
+    }
+  ],
+  "query_patterns": [],
+  "business_rules": []
+}

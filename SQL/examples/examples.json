@@ -1,0 +1,12 @@
+[
+  {
+    "question": "查询所有用户的姓名和邮箱",
+    "sql": "SELECT name, email FROM users",
+    "description": "简单查询示例"
+  },
+  {
+    "question": "统计每个部门的员工数量",
+    "sql": "SELECT department, COUNT(*) as count FROM employees GROUP BY department",
+    "description": "分组统计示例"
+  }
+]
