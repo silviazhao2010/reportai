@@ -28,6 +28,8 @@ SQL/
 ├── main.py                # 主程序
 ├── PROMPT_GUIDE.md        # 提示词编写指南（生成多样性样例）
 ├── PROMPT_TEMPLATES.md    # 完整提示词模板（可直接使用）
+├── GENERATE_NEW_EXAMPLES.md # 生成全新问题和SQL的指南
+├── prompt_generate_new_examples.txt # 简化版提示词（可直接复制使用）
 ├── RULES_GUIDE.md         # 业务规则配置指南
 ├── examples/              # 样例数据目录
 │   ├── examples.json      # 样例数据文件
